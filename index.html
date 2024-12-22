@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מערכת לקוחות</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>גרסאות לקוחות</h1>
+        <button id="loadDataBtn" class="action-btn">טען נתונים</button>
+        <button id="syncVersionsBtn" class="action-btn">סנכרון גרסאות</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>שם לקוח</th>
+                    <th>סוג רישיון</th>
+                    <th>הערות</th>
+                    <th>גרסה</th>
+                </tr>
+            </thead>
+            <tbody id="customerTable">
+                <!-- נתונים יתווספו כאן דינמית -->
+            </tbody>
+        </table>
+        <p id="status"></p>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
