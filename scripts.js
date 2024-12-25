@@ -10,21 +10,29 @@ async function loadData() {
         const response = await fetch('http://127.0.0.1:5000/api/load-data');
         const data = await response.json();
 
-        if (response.ok) {
-            statusElement.textContent = "נתונים נטענו בהצלחה.";
-            const tableBody = document.getElementById("customerTable");
-            tableBody.innerHTML = "";
+        console.log("תשובת השרת:", data);  // הדפסה של תשובת השרת
 
-            data.forEach(customer => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${customer.name}</td>
-                    <td>${customer.license}</td>
-                    <td>${customer.comments}</td>
-                    <td>${customer.version || "לא ידוע"}</td>
-                `;
-                tableBody.appendChild(row);
-            });
+        if (response.ok) {
+            if (Array.isArray(data.customers)) {
+                statusElement.textContent = "נתונים נטענו בהצלחה.";
+                const tableBody = document.getElementById("customerTable");
+                tableBody.innerHTML = "";
+
+                data.customers.forEach(customer => {
+                    const version = customer.version || "לא ידוע";  // אם אין גרסה, הצג "לא ידוע"
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${customer.name}</td>
+                        <td>${customer.license}</td>
+                        <td>${customer.comments}</td>
+                        <td>${customer.version || "לא ידוע"}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                statusElement.textContent = "נתונים לא תקינים: customers אינם מערך";
+                console.error("נתונים לא תקינים:", data);
+            }
         } else {
             statusElement.textContent = "שגיאה בטעינת הנתונים.";
             console.error("שגיאה בטעינת נתונים:", data.message);
@@ -37,6 +45,7 @@ async function loadData() {
         loadDataBtn.textContent = "טען נתונים";
     }
 }
+
 
 // סנכרון גרסאות
 async function syncVersions() {
